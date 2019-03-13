@@ -1,0 +1,52 @@
+{
+	"id": "797d2a09-e1eb-f212-16b6-eababef5cf6a",
+	"name": "school",
+	"description": "",
+	"order": [
+		"53001c9c-2bbc-71ee-79d3-b787d712d26b"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1552504376393,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "53001c9c-2bbc-71ee-79d3-b787d712d26b",
+			"headers": "Authorization: key=AAAANenc4-4:APA91bH3jVyzjk_QHQaPUcVyX2Fy0RSSSB8Sshp6ZPaUpUyaRkb0xWHE-qjgys9Y25GZ_zb5Ek2xCQpRlKpspYv42rZQMuaMautxTNtwqeT4hwuMMd1_Fwwon99W7CYLfGgwd0EIN9kd\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "key=AAAANenc4-4:APA91bH3jVyzjk_QHQaPUcVyX2Fy0RSSSB8Sshp6ZPaUpUyaRkb0xWHE-qjgys9Y25GZ_zb5Ek2xCQpRlKpspYv42rZQMuaMautxTNtwqeT4hwuMMd1_Fwwon99W7CYLfGgwd0EIN9kd",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:5000/student/create",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "797d2a09-e1eb-f212-16b6-eababef5cf6a",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Create Student",
+			"description": "http://localhost:5000/student/create",
+			"descriptionFormat": "html",
+			"time": 1552504433483,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\r\n    \"notification\": {\r\n        \"title\": \"tuKuba\",\r\n        \"body\": \"Kanapki na korytarzu\"\r\n    },\r\n    \"to\": \"c2bye30J_HQ:APA91bEPTYMEw7bnW6vGuOr-kcIS_xgp0KKH7GXzii-K4c_i_JgLWAuJIAGXb2Pd97yIg1kgznTCsodHFmYuveizKw_vIqyFzhx17vjigqVJDbFjdk75mNyZTTt1zI9WpjmrQx9DsQHO\"\r\n}"
+		}
+	]
+}
