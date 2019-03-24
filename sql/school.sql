@@ -11,7 +11,7 @@ CREATE TABLE class
 (
   id   INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(100) NOT NULL
-);
+)ENGINE=INNODB;
 
 -- Create a `students` table.
 CREATE TABLE students
@@ -21,9 +21,9 @@ CREATE TABLE students
   surname VARCHAR(100) NOT NULL,
   email   VARCHAR(100),
   phone   VARCHAR(20),
-  class_id int,
+  class_id int default null,
   FOREIGN KEY (class_id) REFERENCES class (id)
-);
+)ENGINE=INNODB;
 
 INSERT INTO class(name) VALUES ('grupa 1');
 INSERT INTO class(name) VALUES ('grupa 2');
