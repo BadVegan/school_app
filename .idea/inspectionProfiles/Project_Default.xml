@@ -16,5 +16,6 @@
         <method importPath="net/http" receiver="ResponseWriter" name="Write" />
       </methods>
     </inspection_tool>
+    <inspection_tool class="SqlResolveInspection" enabled="false" level="WARNING" enabled_by_default="false" />
   </profile>
 </component>

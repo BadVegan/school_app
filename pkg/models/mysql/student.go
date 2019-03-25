@@ -2,14 +2,26 @@ package mysql
 
 import (
 	"database/sql"
-	"github.com/RyczkoDawid/school_app/pkg/models"
+	"errors"
+	"gopkg.in/guregu/null.v3"
 )
+
+var ErrNoRecord = errors.New(" models: no matching record found")
 
 type StudentModel struct {
 	DB *sql.DB
 }
 
-func (m *StudentModel) Insert(s *models.Student) (int, error) {
+type Student struct {
+	ID      int
+	Name    string
+	Surname string
+	Email   string
+	Phone   string
+	ClassID null.Int
+}
+
+func (m *StudentModel) Insert(s *Student) (int, error) {
 	stmt := `INSERT INTO students (name, surname, email, phone, class_id)
     VALUES(?, ?, ?, ?, ?)`
 
@@ -25,31 +37,31 @@ func (m *StudentModel) Insert(s *models.Student) (int, error) {
 	return int(id), nil
 }
 
-func (m *StudentModel) Get(id int) (*models.Student, error) {
+func (m *StudentModel) Get(id int) (*Student, error) {
 	stmt := `SELECT id, name, surname, email, phone, class_id FROM students
     WHERE id = ?`
 
-	s := &models.Student{}
+	s := &Student{}
 	err := m.DB.QueryRow(stmt, id).Scan(field(s)...)
 	if err == sql.ErrNoRows {
-		return nil, models.ErrNoRecord
+		return nil, ErrNoRecord
 	} else if err != nil {
 		return nil, err
 	}
 	return s, nil
 }
 
-func (m *StudentModel) GetAllStudents() ([]*models.Student, error) {
+func (m *StudentModel) GetAllStudents() ([]*Student, error) {
 	stmt := `SELECT id, name, surname, email, phone, class_id FROM students`
 	return m.getAll(stmt)
 }
 
-func (m *StudentModel) GetAllByClass(classID int) ([]*models.Student, error) {
+func (m *StudentModel) GetAllByClass(classID int) ([]*Student, error) {
 	stmt := `SELECT id, name, surname, email, phone, class_id FROM students WHERE class_id = ?`
 	return m.getAll(stmt, classID)
 }
 
-func (m *StudentModel) getAll(stmt string, arg ...interface{}) ([]*models.Student, error) {
+func (m *StudentModel) getAll(stmt string, arg ...interface{}) ([]*Student, error) {
 
 	rows, err := m.DB.Query(stmt, arg...)
 	if err != nil {
@@ -57,10 +69,10 @@ func (m *StudentModel) getAll(stmt string, arg ...interface{}) ([]*models.Studen
 	}
 	defer rows.Close()
 
-	students := []*models.Student{}
+	var students []*Student
 
 	for rows.Next() {
-		s := &models.Student{}
+		s := &Student{}
 		err = rows.Scan(field(s)...)
 		if err != nil {
 			return nil, err
@@ -74,6 +86,6 @@ func (m *StudentModel) getAll(stmt string, arg ...interface{}) ([]*models.Studen
 	return students, nil
 }
 
-func field(s *models.Student) []interface{} {
+func field(s *Student) []interface{} {
 	return []interface{}{&s.ID, &s.Name, &s.Surname, &s.Email, &s.Phone, &s.ClassID}
 }

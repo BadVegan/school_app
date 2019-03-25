@@ -4,21 +4,20 @@ import (
 	"encoding/json"
 	"github.com/RyczkoDawid/school_app/cmd/web/helpers"
 	"github.com/RyczkoDawid/school_app/cmd/web/structs"
-	"github.com/RyczkoDawid/school_app/pkg/models"
-	"gopkg.in/guregu/null.v3"
+	"github.com/RyczkoDawid/school_app/pkg/models/mysql"
 	"net/http"
 	"strconv"
 )
 
 func GetStudent(app *structs.Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id, err := strconv.Atoi(r.URL.Query().Get("id"))
+		id, err := strconv.Atoi(r.URL.Query().Get(":id"))
 		if err != nil || id < 1 {
 			helpers.NotFound(app, w, err)
 			return
 		}
 		s, err := app.Student.Get(id)
-		if err == models.ErrNoRecord {
+		if err == mysql.ErrNoRecord {
 			helpers.NotFound(app, w, err)
 			return
 		} else if err != nil {
@@ -41,7 +40,7 @@ func GetStudents(app *structs.Application) http.HandlerFunc {
 
 func GetStudentsByClass(app *structs.Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id, err := strconv.Atoi(r.URL.Query().Get("classId"))
+		id, err := strconv.Atoi(r.URL.Query().Get(":id"))
 		if err != nil || id < 1 {
 			helpers.NotFound(app, w, err)
 			return
@@ -63,13 +62,15 @@ func CreateStudent(app *structs.Application) http.HandlerFunc {
 			helpers.ClientError(app, w, http.StatusMethodNotAllowed, nil)
 			return
 		}
-		s := &models.Student{
-			Name:    "Dawid",
-			Surname: "Ryczko",
-			Phone:   "+48666666666",
-			Email:   "davit@wp.pl",
-			ClassID: null.NewInt(0, false),
+
+		var s = &mysql.Student{}
+
+		err := json.NewDecoder(r.Body).Decode(s)
+		if err != nil {
+			helpers.ClientError(app, w, http.StatusBadRequest, err)
+			return
 		}
+
 		id, err := app.Student.Insert(s)
 		if err != nil {
 			helpers.ServerError(app, w, err)
