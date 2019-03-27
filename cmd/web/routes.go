@@ -14,6 +14,7 @@ func routes(app *structs.Application) *http.ServeMux {
 	mux.Get("/classes", GetClasses(app))
 	mux.Post("/class/create", CreateClass(app))
 	mux.Get("/student/:id", GetStudent(app))
+	mux.Put("/student/:id", UpdateStudent(app))
 	mux.Get("/students/class/:id", GetStudentsByClass(app))
 	mux.Get("/students/all", GetStudents(app))
 	mux.Post("/student/create", CreateStudent(app))

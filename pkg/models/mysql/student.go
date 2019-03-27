@@ -3,6 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"gopkg.in/guregu/null.v3"
 )
 
@@ -49,6 +50,20 @@ func (m *StudentModel) Get(id int) (*Student, error) {
 		return nil, err
 	}
 	return s, nil
+}
+
+func (m *StudentModel) Update(s *Student) error {
+	stmt := `UPDATE students SET name =?, surname=?, email = ?, phone = ?, class_id = ? WHERE id = ?`
+	_, err := m.DB.Exec(stmt, s.Name, s.Surname, s.Email, s.Phone, s.ClassID, s.ID)
+
+	if err == sql.ErrNoRows {
+		return ErrNoRecord
+	} else if err != nil {
+		return err
+	}
+
+	fmt.Printf("%v", s)
+	return nil
 }
 
 func (m *StudentModel) GetAllStudents() ([]*Student, error) {
