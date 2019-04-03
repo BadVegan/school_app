@@ -19,9 +19,11 @@ func GetStudent(app *structs.Application) http.HandlerFunc {
 		}
 
 		s, err := app.Student.Get(id)
+
 		if err == mysql.ErrNoRecord {
 			helpers.NotFound(app, w, err)
 			return
+
 		} else if err != nil {
 			helpers.ServerError(app, w, err)
 			return
@@ -36,6 +38,7 @@ func GetStudents(app *structs.Application) http.HandlerFunc {
 
 		if err != nil {
 			helpers.ServerError(app, w, err)
+			return
 		}
 
 		json.NewEncoder(w).Encode(s)
@@ -54,6 +57,7 @@ func GetStudentsByClass(app *structs.Application) http.HandlerFunc {
 		s, err := app.Student.GetAllByClass(id)
 		if err != nil {
 			helpers.ServerError(app, w, err)
+			return
 		}
 
 		json.NewEncoder(w).Encode(s)
@@ -101,12 +105,6 @@ func UpdateStudent(app *structs.Application) http.HandlerFunc {
 			helpers.ServerError(app, w, err)
 			return
 		}
-
-		//s, err = app.Student.Get(id)
-		//if err != nil {
-		//	helpers.ServerError(app, w, err)
-		//	return
-		//}
 
 		json.NewEncoder(w).Encode(s)
 	}

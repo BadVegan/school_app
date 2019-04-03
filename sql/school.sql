@@ -6,28 +6,56 @@ CREATE DATABASE school CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE school;
 
--- Create a `class` table.
+DROP TABLE IF EXISTS teacher;
+CREATE TABLE teacher
+(
+    id      INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name    VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    email   VARCHAR(100),
+    phone   VARCHAR(20)
+) ENGINE = INNODB;
+
+DROP TABLE IF EXISTS class;
 CREATE TABLE class
 (
-  id   INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(100) NOT NULL
-)ENGINE=INNODB;
+    id         INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name       VARCHAR(100) NOT NULL,
+    teacher_id int default null,
+    FOREIGN KEY (teacher_id) REFERENCES teacher (id)
+) ENGINE = INNODB;
 
--- Create a `students` table.
+DROP TABLE IF EXISTS students;
 CREATE TABLE students
 (
-  id      INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  name    VARCHAR(100) NOT NULL,
-  surname VARCHAR(100) NOT NULL,
-  email   VARCHAR(100),
-  phone   VARCHAR(20),
-  class_id int default null,
-  FOREIGN KEY (class_id) REFERENCES class (id)
-)ENGINE=INNODB;
+    id       INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name     VARCHAR(100) NOT NULL,
+    surname  VARCHAR(100) NOT NULL,
+    email    VARCHAR(100),
+    phone    VARCHAR(20),
+    class_id int default null,
+    FOREIGN KEY (class_id) REFERENCES class (id)
+) ENGINE = INNODB;
 
-INSERT INTO class(name) VALUES ('grupa 1');
-INSERT INTO class(name) VALUES ('grupa 2');
-INSERT INTO class(name) VALUES ('grupa 3');
+
+
+INSERT INTO teacher(name, surname, email, phone)
+VALUES ('Nauczycielka', 'Dorota', 'dorota@test.pl', '111-111-111');
+
+INSERT INTO teacher(name, surname, email, phone)
+VALUES ('Nauczycielka', 'Kazia', 'kazia@test.pl', '111-111-222');
+
+INSERT INTO teacher(name, surname, email, phone)
+VALUES ('Nauczyciel', 'Borys', 'borys@test.pl', '111-111-333');
+
+
+
+INSERT INTO class(name, teacher_id)
+VALUES ('grupa 1', 1);
+INSERT INTO class(name, teacher_id)
+VALUES ('grupa 2', 2);
+INSERT INTO class(name, teacher_id)
+VALUES ('grupa 3', 3);
 
 INSERT INTO students(name, surname, email, phone, class_id)
 VALUES ('Jan', 'Szyszka', 'szyszka@test.pl', '111-111-111', 1);
