@@ -28,9 +28,11 @@ func main() {
 	defer db.Close()
 
 	app := &structs.Application{
-		ErrorLog: errorLog,
-		InfoLog:  infoLog,
-		Student:  &mysql.StudentModel{DB: db},
+		ErrorLog:      errorLog,
+		InfoLog:       infoLog,
+		Student:       &mysql.StudentModel{DB: db},
+		SummaryLesson: &mysql.SummaryLessonModel{DB: db},
+		Teacher:       &mysql.TeacherModel{DB: db},
 	}
 
 	srv := &http.Server{

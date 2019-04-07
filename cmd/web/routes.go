@@ -13,11 +13,19 @@ func routes(app *structs.Application) *http.ServeMux {
 	mux.Get("/class", GetClass(app))
 	mux.Get("/classes", GetClasses(app))
 	mux.Post("/class/create", CreateClass(app))
+
 	mux.Get("/student/:id", GetStudent(app))
 	mux.Put("/student/:id", UpdateStudent(app))
 	mux.Get("/students/class/:id", GetStudentsByClass(app))
 	mux.Get("/students/all", GetStudents(app))
 	mux.Post("/student/create", CreateStudent(app))
+
+	mux.Get("/summaryLesson/:id", GetSummaryLesson(app))
+
+	mux.Get("/teacher/:id", GetTeacher(app))
+	mux.Put("/teacher/:id", UpdateTeacher(app))
+	mux.Get("/teacher/all", GetTeachers(app))
+	mux.Post("/teacher/create", CreateTeacher(app))
 
 	sm := http.NewServeMux()
 	sm.Handle("/", mux)

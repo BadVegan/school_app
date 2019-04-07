@@ -6,7 +6,9 @@ import (
 )
 
 type Application struct {
-	ErrorLog *log.Logger
-	InfoLog  *log.Logger
-	Student  *mysql.StudentModel
+	ErrorLog      *log.Logger
+	InfoLog       *log.Logger
+	Student       *mysql.StudentModel
+	SummaryLesson *mysql.SummaryLessonModel
+	Teacher       *mysql.TeacherModel
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="school@golangdb.cxr4pybuxjuw.eu-west-1.rds.amazonaws.com">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.14">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.15">
     <root id="1">
       <ServerVersion>5.7.23</ServerVersion>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -21,6 +21,7 @@
     </schema>
     <schema id="6" parent="1" name="school">
       <Current>1</Current>
+      <Visible>1</Visible>
       <Collation>utf8mb4_unicode_ci</Collation>
     </schema>
     <schema id="7" parent="1" name="snippetbox">
@@ -920,5 +921,188 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
+    <table id="232" parent="6" name="class"/>
+    <table id="233" parent="6" name="presence"/>
+    <table id="234" parent="6" name="students"/>
+    <table id="235" parent="6" name="summary_lesson"/>
+    <table id="236" parent="6" name="teachers"/>
+    <column id="237" parent="232" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="238" parent="232" name="name">
+      <Position>2</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="239" parent="232" name="teacher_id">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="240" parent="232" name="teacher_id">
+      <ColNames>teacher_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="241" parent="232" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="242" parent="232" name="class_ibfk_1">
+      <ColNames>teacher_id</ColNames>
+      <RefSchemaName>school</RefSchemaName>
+      <RefTableName>teachers</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="243" parent="233" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="244" parent="233" name="created">
+      <Position>2</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="245" parent="233" name="present">
+      <Position>3</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="246" parent="233" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="247" parent="234" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="248" parent="234" name="name">
+      <Position>2</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="249" parent="234" name="surname">
+      <Position>3</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="250" parent="234" name="email">
+      <Position>4</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="251" parent="234" name="phone">
+      <Position>5</Position>
+      <DataType>varchar(20)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="252" parent="234" name="class_id">
+      <Position>6</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="253" parent="234" name="class_id">
+      <ColNames>class_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="254" parent="234" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="255" parent="234" name="students_ibfk_1">
+      <ColNames>class_id</ColNames>
+      <RefSchemaName>school</RefSchemaName>
+      <RefTableName>class</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="256" parent="235" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="257" parent="235" name="created">
+      <Position>2</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="258" parent="235" name="summary">
+      <Position>3</Position>
+      <DataType>json|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="259" parent="235" name="class_id">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="260" parent="235" name="class_id">
+      <ColNames>class_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="261" parent="235" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="262" parent="235" name="summary_lesson_ibfk_1">
+      <ColNames>class_id</ColNames>
+      <RefSchemaName>school</RefSchemaName>
+      <RefTableName>class</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="263" parent="236" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="264" parent="236" name="name">
+      <Position>2</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="265" parent="236" name="surname">
+      <Position>3</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="266" parent="236" name="email">
+      <Position>4</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="267" parent="236" name="phone">
+      <Position>5</Position>
+      <DataType>varchar(20)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="268" parent="236" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
   </database-model>
 </dataSource>

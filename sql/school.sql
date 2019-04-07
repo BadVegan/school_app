@@ -6,8 +6,8 @@ CREATE DATABASE school CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE school;
 
-DROP TABLE IF EXISTS teacher;
-CREATE TABLE teacher
+DROP TABLE IF EXISTS teachers;
+CREATE TABLE teachers
 (
     id      INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name    VARCHAR(100) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE class
     id         INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name       VARCHAR(100) NOT NULL,
     teacher_id int default null,
-    FOREIGN KEY (teacher_id) REFERENCES teacher (id)
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id)
 ) ENGINE = INNODB;
 
 DROP TABLE IF EXISTS students;
@@ -37,15 +37,49 @@ CREATE TABLE students
     FOREIGN KEY (class_id) REFERENCES class (id)
 ) ENGINE = INNODB;
 
+DROP TABLE IF EXISTS summary_lesson;
+CREATE TABLE summary_lesson
+(
+    id       INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    created  DATETIME NOT NULL,
+    summary  JSON     NOT NULL,
+    class_id int default null,
+    FOREIGN KEY (class_id) REFERENCES class (id)
+) ENGINE = INNODB;
+
+INSERT INTO summary_lesson(created, summary)
+VALUES (UTC_TIMESTAMP(),
+        '{
+          "name": "Safari",
+          "os": "Mac",
+          "resolution": {
+            "x": 1920,
+            "y": 1080
+          }
+        }');
+
+CREATE TABLE presence
+(
+    id      INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    created DATETIME NOT NULL,
+    present BOOLEAN
+) ENGINE = INNODB;
+
+# DROP TABLE IF EXISTS class_summary_lesson;
+# CREATE TABLE class_summary_lesson
+# (
+#     class_id  INTEGER NOT NULL,
+#     lesson_id INTEGER NOT NULL
+# ) ENGINE = INNODB;
 
 
-INSERT INTO teacher(name, surname, email, phone)
+INSERT INTO teachers(name, surname, email, phone)
 VALUES ('Nauczycielka', 'Dorota', 'dorota@test.pl', '111-111-111');
 
-INSERT INTO teacher(name, surname, email, phone)
+INSERT INTO teachers(name, surname, email, phone)
 VALUES ('Nauczycielka', 'Kazia', 'kazia@test.pl', '111-111-222');
 
-INSERT INTO teacher(name, surname, email, phone)
+INSERT INTO teachers(name, surname, email, phone)
 VALUES ('Nauczyciel', 'Borys', 'borys@test.pl', '111-111-333');
 
 
