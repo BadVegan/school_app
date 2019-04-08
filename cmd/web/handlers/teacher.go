@@ -61,7 +61,7 @@ func GetTeacher(app *structs.Application) http.HandlerFunc {
 
 func GetTeachers(app *structs.Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		s, err := app.Teacher.GetAllTeachers()
+		s, err := app.Teacher.GetTeachers()
 
 		if err != nil {
 			helpers.ServerError(app, w, err)

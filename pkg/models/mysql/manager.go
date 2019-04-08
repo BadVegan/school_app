@@ -1,0 +1,42 @@
+package mysql
+
+import (
+	"database/sql"
+)
+
+func Insert(stmt string, db *sql.DB, arg ...interface{}) (int, error) {
+	result, err := db.Exec(stmt, arg...)
+	if err != nil {
+		return 0, err
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+	return int(id), nil
+}
+
+func Get(stmt string, param interface{}, db *sql.DB, arg ...interface{}) error {
+	err := db.QueryRow(stmt, param).Scan(arg...)
+	if err == sql.ErrNoRows {
+		return ErrNoRecord
+	}
+	return err
+}
+
+func Update(stmt string, db *sql.DB, arg ...interface{}) error {
+	_, err := db.Exec(stmt, arg...)
+
+	if err == sql.ErrNoRows {
+		return ErrNoRecord
+	}
+	return err
+}
+
+func GetAll(stmt string, db *sql.DB, params ...interface{}) (*sql.Rows, error) {
+	rows, err := db.Query(stmt, params...)
+	if err != nil {
+		return nil, err
+	}
+	return rows, nil
+}
