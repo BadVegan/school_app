@@ -33,6 +33,7 @@ func main() {
 		Student:       &mysql.StudentModel{DB: db},
 		SummaryLesson: &mysql.SummaryLessonModel{DB: db},
 		Teacher:       &mysql.TeacherModel{DB: db},
+		Class:         &mysql.ClassModel{DB: db},
 	}
 
 	srv := &http.Server{

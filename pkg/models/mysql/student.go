@@ -2,12 +2,8 @@ package mysql
 
 import (
 	"database/sql"
-	"errors"
-	"fmt"
 	"gopkg.in/guregu/null.v3"
 )
-
-var ErrNoRecord = errors.New(" models: no matching record found")
 
 type StudentModel struct {
 	DB *sql.DB
@@ -23,47 +19,21 @@ type Student struct {
 }
 
 func (m *StudentModel) Insert(s *Student) (int, error) {
-	stmt := `INSERT INTO students (name, surname, email, phone, class_id)
-    VALUES(?, ?, ?, ?, ?)`
-
-	result, err := m.DB.Exec(stmt, s.Name, s.Surname, s.Email, s.Phone, s.ClassID)
-	if err != nil {
-		return 0, err
-	}
-	id, err := result.LastInsertId()
-	if err != nil {
-		return 0, err
-	}
-
-	return int(id), nil
+	stmt := `INSERT INTO students (name, surname, email, phone, class_id) VALUES(?, ?, ?, ?, ?)`
+	return Insert(stmt, m.DB, s.Name, s.Surname, s.Email, s.Phone, s.ClassID)
 }
 
 func (m *StudentModel) Get(id int) (*Student, error) {
-	stmt := `SELECT id, name, surname, email, phone, class_id FROM students
-    WHERE id = ?`
-
+	stmt := `SELECT id, name, surname, email, phone, class_id FROM students WHERE id = ?`
 	s := &Student{}
-	err := m.DB.QueryRow(stmt, id).Scan(field(s)...)
-	if err == sql.ErrNoRows {
-		return nil, ErrNoRecord
-	} else if err != nil {
-		return nil, err
-	}
-	return s, nil
+	err := Get(stmt, id, m.DB, field(s)...)
+	return s, err
 }
 
 func (m *StudentModel) Update(s *Student) error {
 	stmt := `UPDATE students SET name =?, surname=?, email = ?, phone = ?, class_id = ? WHERE id = ?`
-	_, err := m.DB.Exec(stmt, s.Name, s.Surname, s.Email, s.Phone, s.ClassID, s.ID)
+	return Update(stmt, m.DB, s.Name, s.Surname, s.Email, s.Phone, s.ClassID, s.ID)
 
-	if err == sql.ErrNoRows {
-		return ErrNoRecord
-	} else if err != nil {
-		return err
-	}
-
-	fmt.Printf("%v", s)
-	return nil
 }
 
 func (m *StudentModel) GetAllStudents() ([]*Student, error) {

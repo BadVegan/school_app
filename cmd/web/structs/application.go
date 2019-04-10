@@ -11,4 +11,5 @@ type Application struct {
 	Student       *mysql.StudentModel
 	SummaryLesson *mysql.SummaryLessonModel
 	Teacher       *mysql.TeacherModel
+	Class         *mysql.ClassModel
 }

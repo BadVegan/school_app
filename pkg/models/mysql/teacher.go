@@ -2,10 +2,11 @@ package mysql
 
 import (
 	"database/sql"
-	"errors"
 )
 
-var ErrNoRecordTeacher = errors.New(" models: no matching record found")
+type DataBaseType interface {
+	GetAll(stmt string, db *sql.DB, params ...interface{}) ([]*DataBaseType, error)
+}
 
 type TeacherModel struct {
 	DB *sql.DB
@@ -21,13 +22,12 @@ type Teacher struct {
 
 func (m *TeacherModel) Insert(s *Teacher) (int, error) {
 	stmt := `INSERT INTO teachers (name, surname, email, phone) VALUES(?, ?, ?, ?)`
-	return Insert(stmt, m.DB, &s.Name, &s.Surname, &s.Email, &s.Phone)
+	return Insert(stmt, m.DB, s.Name, s.Surname, s.Email, s.Phone)
 }
 
 func (m *TeacherModel) Get(id int) (*Teacher, error) {
 	stmt := `SELECT * FROM teachers WHERE id = ?`
 	s := &Teacher{}
-
 	err := Get(stmt, id, m.DB, &s.Id, &s.Name, &s.Surname, &s.Email, &s.Phone)
 	return s, err
 }
@@ -40,40 +40,30 @@ func (m *TeacherModel) Update(t *Teacher) error {
 
 func (m *TeacherModel) GetTeachers() ([]*Teacher, error) {
 	stmt := `SELECT * FROM teachers`
-	teacher, err := m.getAll(stmt, readRows)
-	s, isTeacher := teacher.([]Teacher)
-	if err != nil {
-		return teacher, err
-	}
-	return teacher, err
+	return m.getAll(stmt, m.DB)
 }
 
-func (m *TeacherModel) getAll(stmt string, reader rowsReader, params ...interface{}) ([]*interface{}, error) {
-	rows, err := GetAll(stmt, m.DB, params...)
+func (m *TeacherModel) getAll(stmt string, db *sql.DB, arg ...interface{}) ([]*Teacher, error) {
+
+	rows, err := m.DB.Query(stmt, arg...)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	teacher, err := reader(rows)
+	var teachers []*Teacher
+
+	for rows.Next() {
+		t := &Teacher{}
+		err = rows.Scan(&t.Id, &t.Name, &t.Surname, &t.Email, &t.Phone)
+		if err != nil {
+			return nil, err
+		}
+		teachers = append(teachers, t)
+	}
 
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
-	return teacher, nil
-}
-
-type rowsReader func(rows *sql.Rows) ([]*interface{}, error)
-
-func readRows(rows *sql.Rows) ([]*interface{}, error) {
-	var teacher []*Teacher
-	for rows.Next() {
-		s := &Teacher{}
-		err := rows.Scan(&s.Id, &s.Name, &s.Surname, &s.Email, &s.Phone)
-		if err != nil {
-			return nil, err
-		}
-		teacher = append(teacher, s)
-	}
-	return teacher, nil
+	return teachers, nil
 }

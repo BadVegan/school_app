@@ -2,7 +2,10 @@ package mysql
 
 import (
 	"database/sql"
+	"errors"
 )
+
+var ErrNoRecord = errors.New(" models: no matching record found")
 
 func Insert(stmt string, db *sql.DB, arg ...interface{}) (int, error) {
 	result, err := db.Exec(stmt, arg...)
@@ -31,12 +34,4 @@ func Update(stmt string, db *sql.DB, arg ...interface{}) error {
 		return ErrNoRecord
 	}
 	return err
-}
-
-func GetAll(stmt string, db *sql.DB, params ...interface{}) (*sql.Rows, error) {
-	rows, err := db.Query(stmt, params...)
-	if err != nil {
-		return nil, err
-	}
-	return rows, nil
 }

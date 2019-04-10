@@ -16,8 +16,8 @@ CREATE TABLE teachers
     phone   VARCHAR(20)
 ) ENGINE = INNODB;
 
-DROP TABLE IF EXISTS class;
-CREATE TABLE class
+DROP TABLE IF EXISTS classes;
+CREATE TABLE classes
 (
     id         INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name       VARCHAR(100) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE students
     email    VARCHAR(100),
     phone    VARCHAR(20),
     class_id int default null,
-    FOREIGN KEY (class_id) REFERENCES class (id)
+    FOREIGN KEY (class_id) REFERENCES classes (id)
 ) ENGINE = INNODB;
 
 DROP TABLE IF EXISTS summary_lesson;
@@ -44,7 +44,7 @@ CREATE TABLE summary_lesson
     created  DATETIME NOT NULL,
     summary  JSON     NOT NULL,
     class_id int default null,
-    FOREIGN KEY (class_id) REFERENCES class (id)
+    FOREIGN KEY (class_id) REFERENCES classes (id)
 ) ENGINE = INNODB;
 
 INSERT INTO summary_lesson(created, summary)
@@ -84,11 +84,11 @@ VALUES ('Nauczyciel', 'Borys', 'borys@test.pl', '111-111-333');
 
 
 
-INSERT INTO class(name, teacher_id)
+INSERT INTO classes(name, teacher_id)
 VALUES ('grupa 1', 1);
-INSERT INTO class(name, teacher_id)
+INSERT INTO classes(name, teacher_id)
 VALUES ('grupa 2', 2);
-INSERT INTO class(name, teacher_id)
+INSERT INTO classes(name, teacher_id)
 VALUES ('grupa 3', 3);
 
 INSERT INTO students(name, surname, email, phone, class_id)
