@@ -921,7 +921,7 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="232" parent="6" name="class"/>
+    <table id="232" parent="6" name="classes"/>
     <table id="233" parent="6" name="presence"/>
     <table id="234" parent="6" name="students"/>
     <table id="235" parent="6" name="summary_lesson"/>
@@ -953,7 +953,7 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="242" parent="232" name="class_ibfk_1">
+    <foreign-key id="242" parent="232" name="classes_ibfk_1">
       <ColNames>teacher_id</ColNames>
       <RefSchemaName>school</RefSchemaName>
       <RefTableName>teachers</RefTableName>
@@ -1028,7 +1028,7 @@
     <foreign-key id="255" parent="234" name="students_ibfk_1">
       <ColNames>class_id</ColNames>
       <RefSchemaName>school</RefSchemaName>
-      <RefTableName>class</RefTableName>
+      <RefTableName>classes</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <column id="256" parent="235" name="id">
@@ -1067,7 +1067,7 @@
     <foreign-key id="262" parent="235" name="summary_lesson_ibfk_1">
       <ColNames>class_id</ColNames>
       <RefSchemaName>school</RefSchemaName>
-      <RefTableName>class</RefTableName>
+      <RefTableName>classes</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <column id="263" parent="236" name="id">

@@ -16,12 +16,13 @@ type SummaryLesson struct {
 	Id      int
 	Created time.Time
 	Summary string
+	ClassID int
 }
 
 func (m *SummaryLessonModel) Get(id int) (*SummaryLesson, error) {
 	stmt := `SELECT *  FROM summary_lesson WHERE id = ?`
 	sl := &SummaryLesson{}
-	err := m.DB.QueryRow(stmt, id).Scan(&sl.Id, &sl.Created, &sl.Summary)
+	err := m.DB.QueryRow(stmt, id).Scan(&sl.Id, &sl.Created, &sl.Summary, &sl.ClassID)
 	if err == sql.ErrNoRows {
 		return nil, ErrNoRecordSummaryLesson
 	} else if err != nil {

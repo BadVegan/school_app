@@ -1,1 +1,4 @@
-- data dla studenta data od kiedy umowa, zawieszenia?
+Student:
+- data zapisu
+- data stworzenia umowy
+- data zawieszenia umowy

@@ -42,21 +42,22 @@ CREATE TABLE summary_lesson
 (
     id       INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT,
     created  DATETIME NOT NULL,
-    summary  JSON     NOT NULL,
+    topic VARCHAR(100),
+    student_book  VARCHAR(200),
+    materials  VARCHAR(200),
+    homework  VARCHAR(200),
+    exam  VARCHAR(200),
+    repeat  VARCHAR(200),
+    presentation  VARCHAR(200),
+    others VARCHAR(300),
     class_id int default null,
     FOREIGN KEY (class_id) REFERENCES classes (id)
 ) ENGINE = INNODB;
 
-INSERT INTO summary_lesson(created, summary)
-VALUES (UTC_TIMESTAMP(),
-        '{
-          "name": "Safari",
-          "os": "Mac",
-          "resolution": {
-            "x": 1920,
-            "y": 1080
-          }
-        }');
+INSERT INTO summary_lesson(created, summary, class_id)
+VALUES (
+        UTC_TIMESTAMP(),
+        , 1);
 
 CREATE TABLE presence
 (
@@ -108,3 +109,5 @@ VALUES ('Wacław', 'Goły', 'waclaw@test.pl', '555-555-555', 3);
 
 INSERT INTO students(name, surname, email, phone, class_id)
 VALUES ('Kazimierz', 'Sztywny', 'kazik@test.pl', '666-666-666', 3);
+
+
